@@ -39,11 +39,15 @@ class KwtSmsPluginConfig extends PluginConfig {
                 'default' => 'KWT-SMS',
                 'configuration' => array('size' => 15, 'length' => 11),
             )),
-            'test_mode' => new BooleanField(array(
-                'label' => $__('Test mode'),
+            // 2026-11-07 00:54 +03: "Test mode" (default on) replaced by "Send real SMS" (default off). osTicket 1.18.4 stores
+            // every checkbox as off when an instance is first added (seen in the Docker QA: test mode posted ticked, saved 0),
+            // so a default-on test mode silently became live sending. Now a dropped checkbox means test mode, the safe side.
+            // Help text: test messages hold credits until deleted from the Sending Queue (was "no credits"). Task osticket-new.
+            'live_mode' => new BooleanField(array(
+                'label' => $__('Send real SMS'),
                 'default' => false,
                 'configuration' => array(
-                    'desc' => $__('Messages are queued on kwtSMS but not delivered, and no credits are used.'),
+                    'desc' => $__('Off = test mode: messages are queued on kwtSMS but not delivered, and their credits are held until you delete them from the Sending Queue in your kwtSMS account. Turn on when you are ready to send.'),
                 ),
             )),
             'customer' => new SectionBreakField(array(

@@ -99,5 +99,30 @@ check('2fa no phone', $b->send(new StubStaff(array())) === false);
 KwtSmsSender::$transport = function () { return array('result' => 'ERROR', 'code' => 'ERR003', 'description' => 'auth'); };
 check('2fa send failure returns false', $b->send($agent) === false);
 
+// 2026-11-07 00:54 +03: live mode is opt-in. A config without live_mode (osTicket 1.18 drops checkboxes when an
+// instance is first added) must send in test mode; live_mode on must send for real. Task osticket-new.
+class BootPlugin extends KwtSmsPlugin {
+    public $cfg;
+    function getConfig() { return $this->cfg; }
+}
+$sent = array();
+KwtSmsSender::$transport = function ($numbers, $message, $sender, $test) use (&$sent) {
+    $sent[] = $test;
+    return array('result' => 'OK');
+};
+$bp = new BootPlugin();
+$bp->cfg = new StubConfig(array('username' => 'u', 'password' => 'p', 'sender' => 'KWT-SMS'));
+$bp->bootstrap();
+KwtSms2FABackend::$sender->send('99912345678', 'x');
+$bp->cfg = new StubConfig(array('username' => 'u', 'password' => 'p', 'sender' => 'KWT-SMS', 'live_mode' => false));
+$bp->bootstrap();
+KwtSms2FABackend::$sender->send('99912345678', 'x');
+$bp->cfg = new StubConfig(array('username' => 'u', 'password' => 'p', 'sender' => 'KWT-SMS', 'live_mode' => true));
+$bp->bootstrap();
+KwtSms2FABackend::$sender->send('99912345678', 'x');
+check('live_mode missing = test mode', $sent[0] === true);
+check('live_mode off = test mode', $sent[1] === true);
+check('live_mode on = real send', $sent[2] === false);
+
 echo ($fails ? "FAILED $fails of $count\n" : "OK $count tests\n");
 exit($fails ? 1 : 0);

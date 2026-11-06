@@ -10,13 +10,14 @@ Gulf.
 - **Ticket confirmations for customers:** an SMS with the ticket number when a customer with a phone number opens a
   ticket. Off by default.
 - Message templates with `{ticket_number}`, `{subject}` and `{name}`. English and Arabic.
-- Test mode: messages are queued on kwtSMS and never delivered, no credits used.
+- Test mode until you turn on **Send real SMS**: messages are queued on kwtSMS and never delivered. Their credits
+  are held until you delete them from the Sending Queue in your kwtSMS account.
 - A failed SMS never stops a ticket or a login; it is written to the osTicket system log.
 
 ## Requirements
 
-- osTicket 1.18 (PHP 8.1 or later with curl and json).
-- A kwtSMS account with API access. [Sign up free](https://www.kwtsms.com/signup/).
+- osTicket 1.18 (tested on 1.18.4), PHP 8.1 or later with curl and json.
+- A kwtSMS account with API access. [Free test account](https://www.kwtsms.com/cportal/signup/).
 
 ## Installation
 
@@ -29,8 +30,11 @@ Gulf.
 1. Open **kwtSMS**, then **Instances > Add New Instance**, and enable the instance.
 2. Enter the API username and password of your kwtSMS account (not your mobile number) and your Sender ID
    (default `KWT-SMS`). Save.
-3. Choose what to send: customer confirmations, agent alerts (with the alert numbers), or both.
-4. SMS login codes: each agent opens **Profile > Authentication**, chooses **SMS (kwtSMS)**, enters a mobile number
+3. Choose what to send: customer confirmations, agent alerts (with the alert numbers), or both. Leave **Send real
+   SMS** off for a first try.
+4. osTicket 1.18 does not save checkboxes when an instance is first added: after **Add Instance**, open the
+   instance again, tick the options you want and save.
+5. SMS login codes: each agent opens **Profile > Authentication**, chooses **SMS (kwtSMS)**, enters a mobile number
    and confirms it with the code. To make two-factor login compulsory, use **Admin Panel > Settings > Agents**.
 
 Phone numbers go in international format, for example `965XXXXXXXX`.

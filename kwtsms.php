@@ -16,8 +16,9 @@ class KwtSmsPlugin extends Plugin {
 
     function bootstrap() {
         $config = $this->getConfig();
+        // 2026-11-07 00:54 +03: test mode = NOT live_mode (live is opt-in, see config.php). Task osticket-new.
         $sender = new KwtSmsSender($config->get('username'), $config->get('password'),
-            $config->get('sender'), $config->get('test_mode'));
+            $config->get('sender'), !$config->get('live_mode'));
         if (!$sender->isConfigured()) {
             return;
         }
