@@ -1,0 +1,13 @@
+{
+    "name": "kwtsms/kwtsms-osticket",
+    "description": "kwtSMS plugin for osTicket",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.1",
+        "kwtsms/kwtsms-php": "^1.8"
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}
