@@ -3,6 +3,8 @@
 SMS for [osTicket](https://osticket.com) through [kwtSMS](https://www.kwtsms.com), the SMS gateway for Kuwait and the
 Gulf.
 
+All kwtSMS integrations: [kwtsms.com/integrations](https://www.kwtsms.com/integrations/)
+
 ## Features
 
 - **SMS login codes for agents:** a new two-factor method, "SMS (kwtSMS)", next to osTicket's e-mail and app codes.
