@@ -1,3 +1,8 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/readme-header-dark.png">
+  <img alt="kwtSMS for osTicket" src=".github/assets/readme-header-light.png">
+</picture>
+
 # kwtSMS for osTicket
 
 SMS for [osTicket](https://osticket.com) through [kwtSMS](https://www.kwtsms.com), the SMS gateway for Kuwait and the
